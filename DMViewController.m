@@ -1,27 +1,38 @@
 //
-//  ViewController.m
+//  DMViewController.m
 //  TableEditingTest
 //
 //  Created by sublio on 08/04/16.
 //  Copyright (c) 2016 sublio. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "DMViewController.h"
 
-@interface ViewController ()
+@interface DMViewController ()
 
 @end
 
-@implementation ViewController
+@implementation DMViewController
+
+
+
+-(void) loadView{
+    
+    
+    [super loadView];
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 @end

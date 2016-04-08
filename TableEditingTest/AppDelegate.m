@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "DMViewController.h"
 
 @interface AppDelegate ()
 
@@ -22,6 +23,10 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    DMViewController* controller = [[DMViewController alloc]init];
+    self.window.rootViewController = controller;
+    
     return YES;
     
 }
