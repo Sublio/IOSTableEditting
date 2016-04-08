@@ -12,6 +12,8 @@
 		8D5950A81CB802A000551710 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D5950A71CB8029F00551710 /* Images.xcassets */; };
 		8D5950B71CB802A000551710 /* TableEditingTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5950B61CB802A000551710 /* TableEditingTestTests.m */; };
 		8D5950C21CB805B400551710 /* DMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5950C11CB805B400551710 /* DMViewController.m */; };
+		8D5950C51CB8157B00551710 /* DMStudent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5950C41CB8157B00551710 /* DMStudent.m */; };
+		8D5950C91CB815C300551710 /* DMGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5950C81CB815C300551710 /* DMGroup.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,10 @@
 		8D5950B61CB802A000551710 /* TableEditingTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableEditingTestTests.m; sourceTree = "<group>"; };
 		8D5950C01CB805B400551710 /* DMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DMViewController.h; path = ../DMViewController.h; sourceTree = "<group>"; };
 		8D5950C11CB805B400551710 /* DMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DMViewController.m; path = ../DMViewController.m; sourceTree = "<group>"; };
+		8D5950C31CB8157B00551710 /* DMStudent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMStudent.h; sourceTree = "<group>"; };
+		8D5950C41CB8157B00551710 /* DMStudent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMStudent.m; sourceTree = "<group>"; };
+		8D5950C71CB815C300551710 /* DMGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMGroup.h; sourceTree = "<group>"; };
+		8D5950C81CB815C300551710 /* DMGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMGroup.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +83,7 @@
 		8D5950991CB8029F00551710 /* TableEditingTest */ = {
 			isa = PBXGroup;
 			children = (
+				8D5950C61CB8159400551710 /* Models */,
 				8D59509E1CB8029F00551710 /* AppDelegate.h */,
 				8D59509F1CB8029F00551710 /* AppDelegate.m */,
 				8D5950C01CB805B400551710 /* DMViewController.h */,
@@ -111,6 +118,17 @@
 				8D5950B51CB802A000551710 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8D5950C61CB8159400551710 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8D5950C31CB8157B00551710 /* DMStudent.h */,
+				8D5950C41CB8157B00551710 /* DMStudent.m */,
+				8D5950C71CB815C300551710 /* DMGroup.h */,
+				8D5950C81CB815C300551710 /* DMGroup.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,7 +230,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5950A01CB8029F00551710 /* AppDelegate.m in Sources */,
+				8D5950C91CB815C300551710 /* DMGroup.m in Sources */,
 				8D5950C21CB805B400551710 /* DMViewController.m in Sources */,
+				8D5950C51CB8157B00551710 /* DMStudent.m in Sources */,
 				8D59509D1CB8029F00551710 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

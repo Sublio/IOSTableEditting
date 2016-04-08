@@ -27,7 +27,7 @@
     CGRect frame = self.view.bounds;
     frame.origin = CGPointZero;
     
-    UITableView* tableView = [[UITableView alloc]initWithFrame:frame style:UITableViewStylePlain];
+    UITableView* tableView = [[UITableView alloc]initWithFrame:frame style:UITableViewStyleGrouped];
     tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     tableView.delegate = self;
     tableView.dataSource = self;
