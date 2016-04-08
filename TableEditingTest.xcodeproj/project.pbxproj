@@ -10,9 +10,7 @@
 		8D59509D1CB8029F00551710 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D59509C1CB8029F00551710 /* main.m */; };
 		8D5950A01CB8029F00551710 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D59509F1CB8029F00551710 /* AppDelegate.m */; };
 		8D5950A31CB8029F00551710 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5950A21CB8029F00551710 /* ViewController.m */; };
-		8D5950A61CB8029F00551710 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D5950A41CB8029F00551710 /* Main.storyboard */; };
 		8D5950A81CB802A000551710 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D5950A71CB8029F00551710 /* Images.xcassets */; };
-		8D5950AB1CB802A000551710 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D5950A91CB802A000551710 /* LaunchScreen.xib */; };
 		8D5950B71CB802A000551710 /* TableEditingTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5950B61CB802A000551710 /* TableEditingTestTests.m */; };
 /* End PBXBuildFile section */
 
@@ -34,9 +32,7 @@
 		8D59509F1CB8029F00551710 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		8D5950A11CB8029F00551710 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		8D5950A21CB8029F00551710 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		8D5950A51CB8029F00551710 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8D5950A71CB8029F00551710 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		8D5950AA1CB802A000551710 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		8D5950B01CB802A000551710 /* TableEditingTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TableEditingTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5950B51CB802A000551710 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D5950B61CB802A000551710 /* TableEditingTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableEditingTestTests.m; sourceTree = "<group>"; };
@@ -85,9 +81,7 @@
 				8D59509F1CB8029F00551710 /* AppDelegate.m */,
 				8D5950A11CB8029F00551710 /* ViewController.h */,
 				8D5950A21CB8029F00551710 /* ViewController.m */,
-				8D5950A41CB8029F00551710 /* Main.storyboard */,
 				8D5950A71CB8029F00551710 /* Images.xcassets */,
-				8D5950A91CB802A000551710 /* LaunchScreen.xib */,
 				8D59509A1CB8029F00551710 /* Supporting Files */,
 			);
 			path = TableEditingTest;
@@ -199,8 +193,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D5950A61CB8029F00551710 /* Main.storyboard in Resources */,
-				8D5950AB1CB802A000551710 /* LaunchScreen.xib in Resources */,
 				8D5950A81CB802A000551710 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -242,25 +234,6 @@
 			targetProxy = 8D5950B11CB802A000551710 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		8D5950A41CB8029F00551710 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8D5950A51CB8029F00551710 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		8D5950A91CB802A000551710 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8D5950AA1CB802A000551710 /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		8D5950B81CB802A000551710 /* Debug */ = {
