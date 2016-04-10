@@ -7,10 +7,13 @@
 //
 
 #import "DMViewController.h"
+#import "DMGroup.h"
+#import "DMStudent.h"
 
 @interface DMViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) UITableView* tableView;
+@property (strong, nonatomic) NSMutableArray* groupsArray;
 
 @end
 
@@ -36,11 +39,33 @@
     [self.view addSubview:tableView];
     
     self.tableView = tableView;
+    tableView.editing = YES;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    self.groupsArray = [NSMutableArray array];
+    
+    for (int i = 0; i < arc4random() %6 + 5; i++){
+        
+        DMGroup* group = [[DMGroup alloc]init];
+        group.name = [NSString stringWithFormat:@"Group #%d", i];
+        NSMutableArray* array = [NSMutableArray array];
+        
+        for (int j = 0; j< ((arc4random() %11)+15);j++){
+            
+            [array addObject:[DMStudent randomStudent]];
+            
+        }
+        
+        group.students = array;
+        
+        [self.groupsArray addObject:group];
+    }
+    
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,8 +79,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    
-    return 5;
+    DMGroup* group = [self.groupsArray objectAtIndex:section];
+    return [group.students count];
 }
 
 
@@ -74,9 +99,28 @@
         
     }
     
-    cell.textLabel.text = [NSString stringWithFormat:@"Section %d, Row %d", indexPath.section,indexPath.row];
     
-    cell.detailTextLabel.text = @"Value";
+    
+    DMGroup* group = [self.groupsArray objectAtIndex:indexPath.section];
+    DMStudent* student = [group.students objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"%@, %@", student.firstName, student.lastName];
+    
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%1.2f",student.averageGrade];
+    
+    if(student.averageGrade >= 4.0){
+        
+        
+        cell.detailTextLabel.textColor = [UIColor greenColor];
+    } else if (student.averageGrade >= 3.0){
+        
+        
+        cell.detailTextLabel.textColor = [UIColor orangeColor];
+    }else{
+        
+        cell.detailTextLabel.textColor = [UIColor redColor];
+        
+    }
     
     return cell;
 }
@@ -85,16 +129,60 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return 5;
+    
+    return [self.groupsArray count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     
     
-    return [NSString stringWithFormat:@"Section  %d header", section];
+    return [[self.groupsArray objectAtIndex:section] name];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
+    /*
+    DMGroup* sourceGroup = [self.groupsArray objectAtIndex:indexPath.section];
+    DMStudent* student = [sourceGroup.students objectAtIndex:indexPath.row];
+    */
+    return YES;
 }
 
 
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath{
+    
+    DMGroup* sourceGroup = [self.groupsArray objectAtIndex:sourceIndexPath.section];
+    DMStudent* student = [sourceGroup.students objectAtIndex:sourceIndexPath.row];
+    
+    NSMutableArray* tempArray = [NSMutableArray arrayWithArray:sourceGroup.students];
+
+    if(sourceIndexPath.section ==destinationIndexPath.section){
+        
+        [tempArray exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
+        sourceGroup.students = tempArray;
+        
+    }else{
+        [tempArray removeObject:student];
+        sourceGroup.students = tempArray;
+        
+        DMGroup* destinationGroup = [self.groupsArray objectAtIndex:destinationIndexPath.section];
+        tempArray = [NSMutableArray arrayWithArray:destinationGroup.students];
+        
+        [tempArray insertObject:student atIndex:destinationIndexPath.row];
+        destinationGroup.students = tempArray;
+        
+    }
+    
+    
+    
+    
+    
+    
+}
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
+    return UITableViewCellEditingStyleNone;
+}
 
 
 
