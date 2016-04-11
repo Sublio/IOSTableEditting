@@ -25,7 +25,11 @@
     [self.window makeKeyAndVisible];
     
     DMViewController* controller = [[DMViewController alloc]init];
-    self.window.rootViewController = controller;
+    
+    UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    
+    
+    self.window.rootViewController = navController;
     
     return YES;
     

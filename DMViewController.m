@@ -39,7 +39,7 @@
     [self.view addSubview:tableView];
     
     self.tableView = tableView;
-    tableView.editing = YES;
+    
 }
 
 - (void)viewDidLoad {
@@ -66,6 +66,14 @@
     }
     
     [self.tableView reloadData];
+    
+    self.navigationItem.title = @"Students";
+    
+    
+    UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+                                                                                target:self
+                                                                                action:@selector(actionEdit:)];
+    self.navigationItem.rightBarButtonItem = editButton;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -74,6 +82,31 @@
 }
 
 
+#pragma mark - Actions
+
+-(void) actionEdit:(UIBarButtonItem*) sender {
+    
+    
+    BOOL isEditing = self.tableView.editing;
+    
+    [self.tableView setEditing:!isEditing animated:NO];
+    
+    UIBarButtonSystemItem item = UIBarButtonSystemItemEdit;
+    
+    
+    if (self.tableView.editing){
+        
+        item = UIBarButtonSystemItemDone;
+        
+    }
+    
+    
+    
+    UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:item
+                                                                                target:self
+                                                                                action:@selector(actionEdit:)];
+    [self.navigationItem setRightBarButtonItem:editButton animated: YES];
+}
 
 
 
