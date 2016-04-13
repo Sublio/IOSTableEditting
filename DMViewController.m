@@ -74,6 +74,13 @@
                                                                                 target:self
                                                                                 action:@selector(actionEdit:)];
     self.navigationItem.rightBarButtonItem = editButton;
+    
+    
+    
+    UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                target:self
+                                                                                action:@selector(actionAddSection:)];
+    self.navigationItem.leftBarButtonItem = addButton;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -89,7 +96,7 @@
     
     BOOL isEditing = self.tableView.editing;
     
-    [self.tableView setEditing:!isEditing animated:NO];
+    [self.tableView setEditing:!isEditing animated:YES];
     
     UIBarButtonSystemItem item = UIBarButtonSystemItemEdit;
     
@@ -106,6 +113,51 @@
                                                                                 target:self
                                                                                 action:@selector(actionEdit:)];
     [self.navigationItem setRightBarButtonItem:editButton animated: YES];
+    
+    
+}
+
+
+- (void) actionAddSection: (UIBarButtonItem*) sender {
+    
+    DMGroup* group = [[DMGroup alloc]init];
+    group.name = [NSString stringWithFormat:@"Group #%d", [self.groupsArray count] + 1];
+    
+    group.students = @[[DMStudent randomStudent], [DMStudent randomStudent]];
+    
+    
+    
+    NSInteger newSectionIndex = 0;
+    
+    [self.groupsArray insertObject:group atIndex:newSectionIndex];
+    
+    [self.tableView beginUpdates];
+    
+    NSIndexSet* insertSections = [NSIndexSet indexSetWithIndex:newSectionIndex];
+    
+    [self.tableView insertSections:insertSections
+                  withRowAnimation:[self.groupsArray count] % 2 ?  UITableViewRowAnimationLeft: UITableViewRowAnimationRight];
+
+    [self.tableView endUpdates];
+    
+    
+    
+    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+    
+    double delayInSeconds = 0.3;
+    
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime,dispatch_get_main_queue(), ^(void){
+        
+        if([[UIApplication sharedApplication]isIgnoringInteractionEvents]){
+            
+            
+            [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+        }
+        
+    });
+    
+    
 }
 
 
@@ -113,7 +165,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     DMGroup* group = [self.groupsArray objectAtIndex:section];
-    return [group.students count];
+    return [group.students count] + 1;
 }
 
 
@@ -121,41 +173,63 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     
-    static NSString* identifier = @"Cell";
-    
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    
-    if(!cell){
+    if(indexPath.row ==0){
+        
+        static NSString* addStudentIdentifier = @"AddStudentCell";
         
         
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:addStudentIdentifier];
         
-    }
-    
-    
-    
-    DMGroup* group = [self.groupsArray objectAtIndex:indexPath.section];
-    DMStudent* student = [group.students objectAtIndex:indexPath.row];
-    
-    cell.textLabel.text = [NSString stringWithFormat:@"%@, %@", student.firstName, student.lastName];
-    
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%1.2f",student.averageGrade];
-    
-    if(student.averageGrade >= 4.0){
+        if(!cell){
+            
+            
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:addStudentIdentifier];
+            cell.textLabel.textColor = [UIColor blueColor];
+            cell.textLabel.text = @"Add student";
+            
+        }
+
+        return cell;
         
-        
-        cell.detailTextLabel.textColor = [UIColor greenColor];
-    } else if (student.averageGrade >= 3.0){
-        
-        
-        cell.detailTextLabel.textColor = [UIColor orangeColor];
     }else{
         
-        cell.detailTextLabel.textColor = [UIColor redColor];
+        static NSString* studentIdentifier = @"StudentCell";
         
-    }
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:studentIdentifier];
+        
+        if(!cell){
+            
+            
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:studentIdentifier];
+            
+        }
+        
+        
+        
+        DMGroup* group = [self.groupsArray objectAtIndex:indexPath.section];
+        DMStudent* student = [group.students objectAtIndex:indexPath.row - 1];
+        
+        cell.textLabel.text = [NSString stringWithFormat:@"%@, %@", student.firstName, student.lastName];
+        
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%1.2f",student.averageGrade];
+        
+        if(student.averageGrade >= 4.0){
+            
+            
+            cell.detailTextLabel.textColor = [UIColor greenColor];
+        } else if (student.averageGrade >= 3.0){
+            
+            
+            cell.detailTextLabel.textColor = [UIColor orangeColor];
+        }else{
+            
+            cell.detailTextLabel.textColor = [UIColor redColor];
+            
+        }
+        
+        return cell;
     
-    return cell;
+    }
 }
 
 
@@ -173,24 +247,21 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
-    /*
-    DMGroup* sourceGroup = [self.groupsArray objectAtIndex:indexPath.section];
-    DMStudent* student = [sourceGroup.students objectAtIndex:indexPath.row];
-    */
-    return YES;
+    
+    return indexPath.row >0;
 }
 
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath{
     
     DMGroup* sourceGroup = [self.groupsArray objectAtIndex:sourceIndexPath.section];
-    DMStudent* student = [sourceGroup.students objectAtIndex:sourceIndexPath.row];
+    DMStudent* student = [sourceGroup.students objectAtIndex:sourceIndexPath.row -1];
     
     NSMutableArray* tempArray = [NSMutableArray arrayWithArray:sourceGroup.students];
 
     if(sourceIndexPath.section ==destinationIndexPath.section){
         
-        [tempArray exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
+        [tempArray exchangeObjectAtIndex:sourceIndexPath.row - 1  withObjectAtIndex:destinationIndexPath.row - 1];
         sourceGroup.students = tempArray;
         
     }else{
@@ -200,7 +271,7 @@
         DMGroup* destinationGroup = [self.groupsArray objectAtIndex:destinationIndexPath.section];
         tempArray = [NSMutableArray arrayWithArray:destinationGroup.students];
         
-        [tempArray insertObject:student atIndex:destinationIndexPath.row];
+        [tempArray insertObject:student atIndex:destinationIndexPath.row - 1];
         destinationGroup.students = tempArray;
         
     }
@@ -211,11 +282,35 @@
     
     
 }
+
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     
     return UITableViewCellEditingStyleNone;
 }
+
+
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
+    
+    return NO;
+}
+
+
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath{
+    
+    
+    if (proposedDestinationIndexPath.row ==0){
+        
+        return sourceIndexPath;
+    } else {
+        
+        return proposedDestinationIndexPath;
+    }
+    
+}
+
 
 
 
