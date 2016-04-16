@@ -39,6 +39,7 @@
     [self.view addSubview:tableView];
     
     self.tableView = tableView;
+    self.tableView.allowsSelectionDuringEditing = NO;
     
 }
 
@@ -185,7 +186,7 @@
             
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:addStudentIdentifier];
             cell.textLabel.textColor = [UIColor blueColor];
-            cell.textLabel.text = @"Add student";
+            cell.textLabel.text = @"Tap to add  new student";
             
         }
 
@@ -286,7 +287,7 @@
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     
-    return UITableViewCellEditingStyleNone;
+    return indexPath.row ==0 ? UITableViewCellEditingStyleNone: UITableViewCellEditingStyleDelete;
 }
 
 
@@ -312,6 +313,103 @@
 }
 
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if(indexPath.row ==0){
+        
+        DMGroup* group = [self.groupsArray objectAtIndex:indexPath.section];
+        NSMutableArray* tempArray = nil;
+        if(group.students){
+            
+            tempArray =[NSMutableArray arrayWithArray:group.students];
+        }else{
+            
+            tempArray = [NSMutableArray array];
+            
+        }
+        
+        
+        NSInteger newStudentIndex = 0;
+        
+        [tempArray insertObject:[DMStudent randomStudent] atIndex:newStudentIndex];
+        
+        
+        group.students = tempArray;
+        
+        
+        
+        
+        
+        [self.tableView beginUpdates];
+        
+       
+        
+        NSIndexPath* newIndexPath = [NSIndexPath indexPathForItem:newStudentIndex + 1 inSection:indexPath.section];
+        
+        [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        
+        [self.tableView endUpdates];
+        
+        
+        
+        [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+        
+        double delayInSeconds = 0.3;
+        
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime,dispatch_get_main_queue(), ^(void){
+            
+            if([[UIApplication sharedApplication]isIgnoringInteractionEvents]){
+                
+                
+                [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+            }
+            
+        });
+
+        
+    }
+    
+    
+    
+    
+    
+    
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return @"Remove";
+    
+}
+
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete){
+        
+        
+        DMGroup* sourceGroup = [self.groupsArray objectAtIndex:indexPath.section];
+        DMStudent* student = [sourceGroup.students objectAtIndex:indexPath.row -1];
+        NSMutableArray* tempArray = [NSMutableArray arrayWithArray:sourceGroup.students];
+        [tempArray removeObject:student];
+        
+        sourceGroup.students = tempArray;
+        
+        [tableView beginUpdates];
+        
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        
+        [tableView endUpdates];
+        
+        
+        
+    }
+    
+    
+}
 
 
 @end
